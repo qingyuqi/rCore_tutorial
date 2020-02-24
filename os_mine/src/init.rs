@@ -26,13 +26,18 @@ pub extern "C" fn rust_main() -> ! {
         ((end as usize - KERNEL_BEGIN_VADDR + KERNEL_BEGIN_PADDR) >> 12) + 1,
         PHYSICAL_MEMORY_END >> 12
     );
+
     frame_allocating_test();
     dynamic_allocating_test();
+
+    let grade = FirstFitAllocator_test();
+    println!("grade for allocator test: {}", grade);
+
     crate::timer::init();
 
     unsafe {
-        // asm!("ebreak"::::"volatile");
-        asm!("mret"::::"volatile");
+        asm!("ebreak"::::"volatile");
+        // asm!("mret"::::"volatile");
     }
     panic!("end of rust_main");
     loop {}
@@ -80,4 +85,84 @@ fn dynamic_allocating_test() {
     let vec_addr = vec.as_ptr() as usize;
     assert!(vec_addr >= lbss && vec_addr < rbss);
     println!("vec is in section .bss!");
+}
+
+use riscv::addr::Frame;
+
+fn alloc(cnt: usize) -> Option<usize> {
+    if let Some(frames) = crate::memory::alloc_frames(cnt) {
+        return Some(frames.number());
+    }
+    return None;
+}
+
+fn dealloc(pnn: usize, cnt: usize) {
+    crate::memory::dealloc_frames(Frame::of_ppn(pnn), cnt)
+}
+
+fn FirstFitAllocator_test() -> usize {
+    let mut grade: usize = 0;
+    crate::memory::init_allocator(1, 6);
+    let mut p0 = alloc(5);
+    if p0.is_none() {
+        return grade;
+    }
+    let mut p0 = p0.unwrap();
+    if !alloc(1).is_none() {
+        return grade;
+    }
+    dealloc(p0 + 2, 3);
+    if !alloc(4).is_none() {
+        return grade;
+    } else {
+        grade += 1 ;
+    }
+    let mut p1 = alloc(3);
+    if p1.is_none() {
+        return grade;
+    } else {
+        grade += 1 ;
+    }
+    let mut p1 = p1.unwrap();
+    if !alloc(1).is_none() {
+        return grade;
+    } else {
+        grade += 1 ;
+    }
+    if p0 + 2 != p1 {
+        return grade;
+    } else {
+        grade += 1 ;
+    }
+    let mut p2 = p0 + 1;
+    dealloc(p0, 1);
+    dealloc(p1, 3);
+    p0 = alloc(1).unwrap();
+    if p0 != p2 - 1 {
+        return grade;
+    } else {
+        grade += 1 ;
+    }
+    dealloc(p0, 1);
+    p0 = alloc(2).unwrap();
+    if p0 != p2 + 1 {
+        return grade;
+    } else {
+        grade += 1 ;
+    }
+    dealloc(p0, 2);
+    dealloc(p2, 1);
+    let mut p0 = alloc(5);
+    if p0.is_none() {
+        return grade;
+    } else {
+        grade += 1 ;
+    }
+    if !alloc(1).is_none() {
+        return grade;
+    } else {
+        grade += 1 ;
+    }
+    dealloc(p0.unwrap(), 5);
+    return grade;
 }

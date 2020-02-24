@@ -1,4 +1,5 @@
 use crate::consts::MAX_PHYSICAL_PAGES;
+use spin::Mutex;
 
 pub struct SegmentTreeAllocator {
     a: [u8; MAX_PHYSICAL_PAGES << 1],
@@ -64,11 +65,55 @@ impl SegmentTreeAllocator {
     }
 }
 
-use spin::Mutex;
-
 pub static SEGMENT_TREE_ALLOCATOR: Mutex<SegmentTreeAllocator> = Mutex::new(SegmentTreeAllocator {
     a: [0; MAX_PHYSICAL_PAGES << 1],
     m: 0,
+    n: 0,
+    offset: 0
+});
+
+pub struct FirstFitAllocator {
+    a: [u8; MAX_PHYSICAL_PAGES],
+    n: usize,
+    offset: usize
+}
+
+impl FirstFitAllocator {
+    pub fn init(&mut self, l: usize, r: usize) {
+        self.offset = l - 1;
+        self.n = r - l + 1;
+        for i in (1..self.n) {
+            self.a[i] = 0;
+        }
+    }
+    pub fn alloc(&mut self, cnt: usize) -> Option<usize> {
+        let mut result = 1;
+        for i in (1..self.n) {
+            if self.a[i] == 1 {
+                result = i + 1;
+            } else {
+                if i - result + 1 >= cnt {
+                    for j in (result..i + 1) {
+                        assert!(self.a[j] == 0);
+                        self.a[j] = 1;
+                    }
+                    return Some(result);
+                }
+            }
+        }
+        return None;
+    }
+    pub fn dealloc(&mut self, ppn: usize, cnt: usize) {
+        let mut p = ppn - self.offset;
+        for i in (p..(p + cnt)) {
+            assert!(self.a[i] == 1);
+            self.a[i] = 0;
+        }
+    }
+}
+
+pub static FIRST_FIT_ALLOCATOR: Mutex<FirstFitAllocator> = Mutex::new(FirstFitAllocator {
+    a: [0; MAX_PHYSICAL_PAGES],
     n: 0,
     offset: 0
 });

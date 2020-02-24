@@ -1,6 +1,8 @@
 mod frame_allocator;
 
 use frame_allocator::SEGMENT_TREE_ALLOCATOR as FRAME_ALLOCATOR;
+use frame_allocator::FIRST_FIT_ALLOCATOR as FRAME_ALLOCATOR_TEST;
+
 use riscv::addr::{
     // 分别为虚拟地址、物理地址、虚拟页、物理页帧
     VirtAddr,
@@ -23,6 +25,22 @@ pub fn alloc_frame() -> Option<Frame> {
 }
 pub fn dealloc_frame(f: Frame) {
     FRAME_ALLOCATOR.lock().dealloc(f.number())
+}
+
+pub fn init_allocator(l: usize, r: usize) {
+    FRAME_ALLOCATOR_TEST.lock().init(l, r);
+}
+
+pub fn alloc_frames(cnt: usize) -> Option<Frame> {
+    // 将物理页号转为物理页帧
+    let p = FRAME_ALLOCATOR_TEST.lock().alloc(cnt);
+    if !p.is_none() {
+        return Some(Frame::of_ppn(p.unwrap()));
+    }
+    return None;
+}
+pub fn dealloc_frames(f: Frame, cnt: usize) {
+    FRAME_ALLOCATOR_TEST.lock().dealloc(f.number(), cnt);
 }
 
 fn init_heap() {
