@@ -3,6 +3,5 @@ usr/rust/target
 usr/build
 os/src/link_user.S
 Cargo.lock
-
 os_mine/src/link_user.S
 os_mine/target
