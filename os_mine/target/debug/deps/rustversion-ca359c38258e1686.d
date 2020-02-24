@@ -1,0 +1,12 @@
+/mnt/d/大三下/操作系统/rCore/rCore_tutorial/os_mine/target/debug/deps/librustversion-ca359c38258e1686.so: /home/qingyuqi/.cargo/registry/src/github.com-1ecc6299db9ec823/rustversion-1.0.2/src/lib.rs /home/qingyuqi/.cargo/registry/src/github.com-1ecc6299db9ec823/rustversion-1.0.2/src/attr.rs /home/qingyuqi/.cargo/registry/src/github.com-1ecc6299db9ec823/rustversion-1.0.2/src/bound.rs /home/qingyuqi/.cargo/registry/src/github.com-1ecc6299db9ec823/rustversion-1.0.2/src/date.rs /home/qingyuqi/.cargo/registry/src/github.com-1ecc6299db9ec823/rustversion-1.0.2/src/expr.rs /home/qingyuqi/.cargo/registry/src/github.com-1ecc6299db9ec823/rustversion-1.0.2/src/time.rs /home/qingyuqi/.cargo/registry/src/github.com-1ecc6299db9ec823/rustversion-1.0.2/src/version.rs /mnt/d/大三下/操作系统/rCore/rCore_tutorial/os_mine/target/debug/build/rustversion-d1c1b0fc0efbef89/out/version.rs
+
+/mnt/d/大三下/操作系统/rCore/rCore_tutorial/os_mine/target/debug/deps/rustversion-ca359c38258e1686.d: /home/qingyuqi/.cargo/registry/src/github.com-1ecc6299db9ec823/rustversion-1.0.2/src/lib.rs /home/qingyuqi/.cargo/registry/src/github.com-1ecc6299db9ec823/rustversion-1.0.2/src/attr.rs /home/qingyuqi/.cargo/registry/src/github.com-1ecc6299db9ec823/rustversion-1.0.2/src/bound.rs /home/qingyuqi/.cargo/registry/src/github.com-1ecc6299db9ec823/rustversion-1.0.2/src/date.rs /home/qingyuqi/.cargo/registry/src/github.com-1ecc6299db9ec823/rustversion-1.0.2/src/expr.rs /home/qingyuqi/.cargo/registry/src/github.com-1ecc6299db9ec823/rustversion-1.0.2/src/time.rs /home/qingyuqi/.cargo/registry/src/github.com-1ecc6299db9ec823/rustversion-1.0.2/src/version.rs /mnt/d/大三下/操作系统/rCore/rCore_tutorial/os_mine/target/debug/build/rustversion-d1c1b0fc0efbef89/out/version.rs
+
+/home/qingyuqi/.cargo/registry/src/github.com-1ecc6299db9ec823/rustversion-1.0.2/src/lib.rs:
+/home/qingyuqi/.cargo/registry/src/github.com-1ecc6299db9ec823/rustversion-1.0.2/src/attr.rs:
+/home/qingyuqi/.cargo/registry/src/github.com-1ecc6299db9ec823/rustversion-1.0.2/src/bound.rs:
+/home/qingyuqi/.cargo/registry/src/github.com-1ecc6299db9ec823/rustversion-1.0.2/src/date.rs:
+/home/qingyuqi/.cargo/registry/src/github.com-1ecc6299db9ec823/rustversion-1.0.2/src/expr.rs:
+/home/qingyuqi/.cargo/registry/src/github.com-1ecc6299db9ec823/rustversion-1.0.2/src/time.rs:
+/home/qingyuqi/.cargo/registry/src/github.com-1ecc6299db9ec823/rustversion-1.0.2/src/version.rs:
+/mnt/d/大三下/操作系统/rCore/rCore_tutorial/os_mine/target/debug/build/rustversion-d1c1b0fc0efbef89/out/version.rs:
