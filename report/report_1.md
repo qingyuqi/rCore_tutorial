@@ -10,4 +10,5 @@
 	
 	
 	Exception(IllegalInstruction)
-	panicked at 'undefined trap!', src/interrupt.rs:49:13:49:13
+	
+		panicked at 'undefined trap!', src/interrupt.rs:49:13:49:13
