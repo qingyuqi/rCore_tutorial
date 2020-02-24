@@ -9,6 +9,5 @@
 * **触发非法指令异常**：在 **rust_main** 当中使用内联汇编 **asm!("mret"::::"volatile");** 触发异常。在 **rust_trap** 中捕获，将异常类型输出，并触发 **panic**，运行结果如下：
 	
 	
-	Exception(IllegalInstruction)
-	
+		Exception(IllegalInstruction)
 		panicked at 'undefined trap!', src/interrupt.rs:49:13:49:13
