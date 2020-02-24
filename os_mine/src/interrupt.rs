@@ -40,11 +40,14 @@ pub fn init() {
 pub fn rust_trap(tf: &mut TrapFrame) {
     // 根据中断原因分类讨论
     match tf.scause.cause() {
-        // 断点中断
+        // 断点异常
         Trap::Exception(Exception::Breakpoint) => breakpoint(&mut tf.sepc),
         // S态时钟中断
         Trap::Interrupt(Interrupt::SupervisorTimer) => super_timer(),
-        _ => panic!("undefined trap!")
+        _ => {
+            println!("{:?}", tf.scause.cause());
+            panic!("undefined trap!")
+        }
     }
 }
 
