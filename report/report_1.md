@@ -7,7 +7,7 @@
 
 #### 3、编程解决：在任意位置触发一条非法指令异常（如：mret），在 rust_trap 中捕获并对其进行处理
 * **触发非法指令异常**：在 **rust_main** 当中使用内联汇编 **asm!("mret"::::"volatile");** 触发异常。在 **rust_trap** 中捕获，将异常类型输出，并触发 **panic**，运行结果如下：
-    
+	
 	
 	Exception(IllegalInstruction)
-    panicked at 'undefined trap!', src/interrupt.rs:49:13:49:13
+	panicked at 'undefined trap!', src/interrupt.rs:49:13:49:13
