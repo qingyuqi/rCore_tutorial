@@ -1,7 +1,7 @@
 OUTPUT_ARCH(riscv)
 ENTRY(_start)
 
-BASE_ADDRESS = 0x80200000;
+BASE_ADDRESS = 0xffffffffc0200000;
 
 SECTIONS
 {
@@ -17,7 +17,7 @@ SECTIONS
 
     .rodata : {
         srodata = .;
-        *(.rodata . rodata.*)
+        *(.rodata .rodata.*)
         . = ALIGN(4K);
         erodata = .;
     }
@@ -28,7 +28,7 @@ SECTIONS
         edata = .;
     }
 
-    .stact : {
+    .stack : {
         *(.bss.stack)
     }
 

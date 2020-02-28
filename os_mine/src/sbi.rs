@@ -51,12 +51,12 @@ pub fn remote_fence_i(hart_mask: usize) {
     sbi_call(SBI_REMOTE_FENCE_I, &hart_mask as *const _ as usize, 0, 0);
 }
 
-pub fn remote_sfence_vma(hart_mask: usize) {
+pub fn remote_sfence_vma(hart_mask: usize, _start: usize, _size: usize) {
     sbi_call(SBI_REMOTE_SFENCE_VMA, &hart_mask as *const _ as usize, 0, 0);
 }
 
 pub fn remote_sfence_vma_asid(hart_mask: usize, _start: usize, _size: usize, _asid: usize) {
-    sbi_call(SBI_REMOTE_SFENCE_VMA, &hart_mask as *const _ as usize, 0, 0);
+    sbi_call(SBI_REMOTE_SFENCE_VMA_ASID, &hart_mask as *const _ as usize, 0, 0);
 }
 
 const SBI_SET_TIMER: usize = 0;

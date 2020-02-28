@@ -1,1 +1,0 @@
-{"rustc":951959831004604366,"features":"[]","target":750742775204967939,"profile":14996655781355331481,"path":10872709659218687626,"deps":[],"local":[{"CheckDepInfo":{"dep_info":"riscv64imac-unknown-none-elf/debug/.fingerprint/os_mine-6252711bd3c70e41/dep-lib-os_mine-6252711bd3c70e41"}}],"rustflags":["-C","link-arg=-Tsrc/boot/linker64.ld"],"metadata":16311327544407322032}

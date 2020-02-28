@@ -44,11 +44,19 @@ pub fn rust_trap(tf: &mut TrapFrame) {
         Trap::Exception(Exception::Breakpoint) => breakpoint(&mut tf.sepc),
         // S态时钟中断
         Trap::Interrupt(Interrupt::SupervisorTimer) => super_timer(),
+        Trap::Exception(Exception::InstructionPageFault) => page_fault(tf),
+        Trap::Exception(Exception::LoadPageFault) => page_fault(tf),
+        Trap::Exception(Exception::StorePageFault) => page_fault(tf),
         _ => {
             println!("{:?}", tf.scause.cause());
             panic!("undefined trap!")
         }
     }
+}
+
+fn page_fault(tf: &mut TrapFrame) {
+    println!("{:?} va = {:#x} instruction = {:#x}", tf.scause.cause(), tf.stval, tf.sepc);
+    panic!("page fault!");
 }
 
 // 断点中断处理，输出断点地址并改变中断返回地址
@@ -69,7 +77,7 @@ fn super_timer() {
         // 因此这是 unsafe 的，不过目前先不用管这个
         TICKS += 1;
         // 每触发 100 次时钟中断将计数清零并输出
-        if (TICKS == 100) {
+        if TICKS == 100 {
             TICKS = 0;
             println!("* 100 ticks *");
         }

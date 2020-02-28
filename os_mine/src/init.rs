@@ -11,35 +11,34 @@ use crate::memory::{
 
 #[no_mangle]
 pub extern "C" fn rust_main() -> ! {
+    crate::interrupt::init();
+    
     extern "C" {
         fn end();
     }
-    println!("kernel end vaddr = {:#x}", end as usize);
-    println!(
-        "free physical memory ppn = [{:#x}, {:#x})", 
-        ((end as usize - KERNEL_BEGIN_VADDR + KERNEL_BEGIN_PADDR) >> 12) + 1,
-        PHYSICAL_MEMORY_END >> 12
-    );
-    crate::interrupt::init();
 
     crate::memory::init(
         ((end as usize - KERNEL_BEGIN_VADDR + KERNEL_BEGIN_PADDR) >> 12) + 1,
         PHYSICAL_MEMORY_END >> 12
     );
-
+    /*
     frame_allocating_test();
     dynamic_allocating_test();
 
     let grade = FirstFitAllocator_test();
     println!("grade for allocator test: {}", grade);
+    */
 
     crate::timer::init();
-
+    
     unsafe {
         asm!("ebreak"::::"volatile");
         // asm!("mret"::::"volatile");
     }
-    panic!("end of rust_main");
+    
+    // write_readonly_test();
+    // execute_unexecutable_test();
+    // read_invalid_test();
     loop {}
 }
 
@@ -165,4 +164,30 @@ fn FirstFitAllocator_test() -> usize {
     }
     dealloc(p0.unwrap(), 5);
     return grade;
+}
+
+// 只读权限，却要写入
+fn write_readonly_test() {
+    extern "C" {
+        fn srodata();
+    }
+    unsafe {
+        let ptr = srodata as usize as *mut u8;
+        *ptr = 0xab;
+    }
+}
+
+// 不允许执行，非要执行
+fn execute_unexecutable_test() {
+    extern "C" {
+        fn sbss();
+    }
+    unsafe {
+        asm!("jr $0" :: "r"(sbss as usize) :: "volatile");
+    }
+}
+
+// 找不到页表项
+fn read_invalid_test() {
+    println!("{}", unsafe { *(0x12345678 as usize as *const u8) });
 }
